@@ -143,8 +143,7 @@ public final class Bind {
         
         cBind.length = UnsafeMutablePointer<UInt>.allocate(capacity: 1)
         cBind.length.initialize(to: cBind.buffer_length)
-        
-        
+
         cBind.buffer_type = type
         
         if unsigned {

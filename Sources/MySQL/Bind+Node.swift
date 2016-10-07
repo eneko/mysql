@@ -23,7 +23,6 @@ extension Bind {
         func cast<T>(_ buffer: UnsafeMutableRawPointer, _ type: T.Type) -> UnsafeMutablePointer<T> {
             return buffer.bindMemory(to: type, capacity: 1)
         }
-        
 
         func unwrap<T>(_ buffer: UnsafeMutableRawPointer, _ type: T.Type) -> T {
             return buffer.load(as: type)
@@ -64,7 +63,8 @@ extension Bind {
                  MYSQL_TYPE_DECIMAL,
                  MYSQL_TYPE_NEWDECIMAL,
                  MYSQL_TYPE_ENUM,
-                 MYSQL_TYPE_SET:
+                 MYSQL_TYPE_SET,
+                 MYSQL_TYPE_GEOMETRY:
                 let buffer = UnsafeMutableBufferPointer(
                     start: cast(buffer, UInt8.self),
                     count: len()

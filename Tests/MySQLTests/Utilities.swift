@@ -7,7 +7,7 @@ extension MySQL.Database {
             let mysql = try MySQL.Database(
                 host: "127.0.0.1",
                 user: "root",
-                password: "",
+                password: "eneko123",
                 database: "test"
             )
             try mysql.execute("SELECT @@version")

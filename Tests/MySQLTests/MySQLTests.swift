@@ -147,10 +147,8 @@ class MySQLTests: XCTestCase {
 
     func testTimestamps() {
         do {
-
             try mysql.execute("DROP TABLE IF EXISTS times")
             try mysql.execute("CREATE TABLE times (i INT, d DATE, t TIME, ts TIMESTAMP)")
-
 
             try mysql.execute("INSERT INTO times VALUES (?, ?, ?, ?)", [
                 1.0,
@@ -158,7 +156,6 @@ class MySQLTests: XCTestCase {
                 "13:42",
                 "2016-05-05 05:05:05"
             ])
-
 
             if let result = try mysql.execute("SELECT i FROM times").first {
                 print(result)
@@ -198,4 +195,29 @@ class MySQLTests: XCTestCase {
             XCTFail("Wrong error: \(error)")
         }
     }
+
+    func testSpatialPoint() {
+        do {
+            try mysql.execute("DROP TABLE IF EXISTS spatial_points")
+            try mysql.execute("CREATE TABLE spatial_points (i INT, p POINT)")
+
+            try mysql.execute("INSERT INTO spatial_points VALUES (?, st_pointfromtext(?))", [
+                1.0,
+//                ["lat": 90.0, "lon": -180]
+                "POINT(90 -180)"
+                ])
+
+//            let sql = "SELECT i, concat(\"a\",\"b\") FROM spatial_points"
+            let sql = "SELECT i, ST_AsText(p) as point FROM spatial_points"
+//            let sql = "SELECT i, p as point FROM spatial_points"
+            if let result = try mysql.execute(sql).first {
+                print(result)
+            } else {
+                XCTFail("No results")
+            }
+        } catch {
+            XCTFail("Testing tables failed: \(error)")
+        }
+    }
+
 }
